@@ -1,4 +1,4 @@
-# Java Library System
+# Java Library System (in early Development no stable version yet)
 
 A console-based library management system built in Java to practice core concepts of data structures and the Java class library.
 
