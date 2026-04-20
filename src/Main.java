@@ -1,5 +1,6 @@
 import model.Book;
 import service.Library;
+import util.InputHelper;
 
 import java.util.List;
 import java.util.Scanner;
@@ -12,18 +13,11 @@ public class Main {
         preloadBooks(library);
 
         boolean running = true;
-		int choice = -1;
 
         while (running) {
             printMenu();
-			try {
-            	choice = sc.nextInt();
-			} catch (Exception e) {
-				System.out.println("Invalid input. Please enter a number.");
-				sc.nextLine();
-				continue;
-			}
-            sc.nextLine(); // consume newline
+
+            int choice = InputHelper.readInt(sc, "Choose an option");
 
             switch (choice) {
                 case 1:
@@ -65,7 +59,6 @@ public class Main {
         System.out.println("5. Borrow book");
         System.out.println("6. Return book");
         System.out.println("0. Exit");
-        System.out.print("Choose an option: ");
     }
 
     private static void preloadBooks(Library library) {
@@ -84,22 +77,11 @@ public class Main {
     }
 
     private static void addBook(Scanner sc, Library library) {
-        System.out.print("Enter ID: ");
-        int id = sc.nextInt();
-        sc.nextLine();
-
-        System.out.print("Enter title: ");
-        String title = sc.nextLine();
-
-        System.out.print("Enter author: ");
-        String author = sc.nextLine();
-
-        System.out.print("Enter genre: ");
-        String genre = sc.nextLine();
-
-        System.out.print("Is available (true/false): ");
-        boolean available = sc.nextBoolean();
-        sc.nextLine();
+        int id = InputHelper.readInt(sc, "Enter ID");
+        String title = InputHelper.readString(sc, "Enter title");
+        String author = InputHelper.readString(sc, "Enter author");
+        String genre = InputHelper.readString(sc, "Enter genre");
+        boolean available = InputHelper.readBoolean(sc, "Is available");
 
         Book book = new Book(id, title, author, genre, available);
 
@@ -113,9 +95,7 @@ public class Main {
     }
 
     private static void removeBook(Scanner sc, Library library) {
-        System.out.print("Enter book ID to remove: ");
-        int id = sc.nextInt();
-        sc.nextLine();
+        int id = InputHelper.readInt(sc, "Enter book ID to remove");
 
         boolean removed = library.removeBookById(id);
 
@@ -127,8 +107,7 @@ public class Main {
     }
 
     private static void searchBooks(Scanner sc, Library library) {
-        System.out.print("Enter title keyword: ");
-        String keyword = sc.nextLine();
+        String keyword = InputHelper.readString(sc, "Enter title keyword");
 
         List<Book> results = library.searchByTitle(keyword);
 
@@ -143,9 +122,7 @@ public class Main {
     }
 
     private static void borrowBook(Scanner sc, Library library) {
-        System.out.print("Enter book ID to borrow: ");
-        int id = sc.nextInt();
-        sc.nextLine();
+        int id = InputHelper.readInt(sc, "Enter book ID to borrow");
 
         boolean success = library.borrowBook(id);
 
@@ -157,9 +134,7 @@ public class Main {
     }
 
     private static void returnBook(Scanner sc, Library library) {
-        System.out.print("Enter book ID to return: ");
-        int id = sc.nextInt();
-        sc.nextLine();
+        int id = InputHelper.readInt(sc, "Enter book ID to return");
 
         boolean success = library.returnBook(id);
 
