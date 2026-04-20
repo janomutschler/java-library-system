@@ -5,12 +5,12 @@ import util.InputHelper;
 import java.util.List;
 import java.util.Scanner;
 
+import io.FileManager;
+
 public class Main {
     public static void main(String[] args) {
         Library library = new Library();
         Scanner sc = new Scanner(System.in);
-
-        preloadBooks(library);
 
         boolean running = true;
 
@@ -38,6 +38,12 @@ public class Main {
                 case 6:
                     returnBook(sc, library);
                     break;
+                case 7:
+                    loadFromFile(sc, library);
+                    break;
+                case 8:
+                    saveReport(sc, library);
+                    break;
                 case 0:
                     running = false;
                     System.out.println("Goodbye.");
@@ -58,15 +64,38 @@ public class Main {
         System.out.println("4. Search by title");
         System.out.println("5. Borrow book");
         System.out.println("6. Return book");
+        System.out.println("7. Load books from file");
+        System.out.println("8. Save report");
         System.out.println("0. Exit");
     }
 
-    private static void preloadBooks(Library library) {
-        library.addBook(new Book(1, "Dune", "Frank Herbert", "Sci-Fi", true));
-        library.addBook(new Book(2, "1984", "George Orwell", "Dystopia", true));
-        library.addBook(new Book(3, "Clean Code", "Robert C. Martin", "Programming", true));
-        library.addBook(new Book(4, "Dune", "Frank Herbert", "Sci-Fi", true));
-        library.addBook(new Book(5, "Animal Farm", "George Orwell", "Satire", false));
+    private static void loadFromFile(Scanner sc, Library library) {
+        String path = InputHelper.readString(sc, "Enter file path");
+
+        FileManager fileManager = new FileManager();
+        List<Book> books = fileManager.loadBooksFromFile(path);
+
+        int added = 0;
+        int skipped = 0;
+
+        for (Book book : books) {
+            if (library.addBook(book)) {
+                added++;
+            } else {
+                System.out.println("Skipped duplicate ID: " + book.getId());
+                skipped++;
+            }
+        }
+
+        System.out.println("Loaded books: " + added);
+        System.out.println("Skipped (duplicate IDs): " + skipped);
+    }
+
+    private static void saveReport(Scanner sc, Library library) {
+        String path = InputHelper.readString(sc, "Enter output file path");
+
+        FileManager fileManager = new FileManager();
+        fileManager.saveReport(path, library);
     }
 
     private static void listAllBooks(Library library) {
