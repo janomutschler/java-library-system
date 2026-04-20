@@ -1,6 +1,6 @@
-id;title;author;genre
-1;The Hobbit;J.R.R. Tolkien;Fantasy
-2;1984;George Orwell;Dystopian
-3;Clean Code;Robert C. Martin;Programming
-4;The Pragmatic Programmer;Andrew Hunt;Programming
-5;Harry Potter and the Sorcerer's Stone;J.K. Rowling;Fantasy
+id;title;author;genre;available
+1;Dune;Frank Herbert;Sci-Fi;true
+2;1984;George Orwell;Dystopia;true
+3;Clean Code;Robert C. Martin;Programming;false
+4;Dune;Frank Herbert;Sci-Fi;true
+5;Clean Code;Robert C. Martin;Programming;true
