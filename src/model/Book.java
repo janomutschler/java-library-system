@@ -5,9 +5,9 @@ import java.util.Objects;
 public class Book implements Comparable<Book> {
 
     private final String id;
-    private String title;
-    private String author;
-    private String genre;
+    private final String title;
+    private final String author;
+    private final String genre;
     private boolean available;
 
     public Book(String id, String title, String author, String genre, boolean available) {
@@ -18,7 +18,6 @@ public class Book implements Comparable<Book> {
         this.available = available;
     }
 
-    // --- Getters ---
     public String getId() {
         return id;
     }
