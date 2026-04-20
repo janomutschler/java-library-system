@@ -5,12 +5,12 @@ import model.Book;
 
 public class Main {
     public static void main(String[] args) {
-        Book b1 = new Book("00001", "Dune", "Frank Herbert", "Sci-Fi", true);
-        Book b2 = new Book("00002", "1984", "George Orwell", "Dystopia", true);
-        Book b3 = new Book("00003", "Clean Code", "Robert C. Martin", "Programming", true);
-        Book b4 = new Book("00004", "Dune", "Frank Herbert", "Sci-Fi", true);
-        Book b5 = new Book("00005", "Animal Farm", "George Orwell", "Satire", false);
-        Book dub1 = new Book("00001", "Dune", "Frank Herbert", "Sci-Fi", true);
+        Book b1 = new Book(1, "Dune", "Frank Herbert", "Sci-Fi", true);
+        Book b2 = new Book(2, "1984", "George Orwell", "Dystopia", true);
+        Book b3 = new Book(3, "Clean Code", "Robert C. Martin", "Programming", true);
+        Book b4 = new Book(4, "Dune", "Frank Herbert", "Sci-Fi", true);
+        Book b5 = new Book(5, "Animal Farm", "George Orwell", "Satire", false);
+        Book dub1 = new Book(1, "Dune", "Frank Herbert", "Sci-Fi", true);
 
         List<Book> books = new ArrayList<>();
         books.add(b1);
