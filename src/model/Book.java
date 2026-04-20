@@ -4,13 +4,13 @@ import java.util.Objects;
 
 public class Book implements Comparable<Book> {
 
-    private final String id;
+    private final int id;
     private final String title;
     private final String author;
     private final String genre;
     private boolean available;
 
-    public Book(String id, String title, String author, String genre, boolean available) {
+    public Book(int id, String title, String author, String genre, boolean available) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -18,7 +18,7 @@ public class Book implements Comparable<Book> {
         this.available = available;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
