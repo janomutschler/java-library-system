@@ -42,14 +42,19 @@ public class Book implements Comparable<Book> {
         this.available = available;
     }
 
-    @Override
-    public String toString() {
-        return "ID: " + id +
-               "; Title: " + title +
-               "; Author: " + author +
-               "; Genre: " + genre +
-               "; Available: " + available;
-    }
+	@Override
+	public String toString() {
+		String status = available ? "Available" : "Borrowed";
+
+		return String.format(
+			"%-5d %-20s | %-20s | %-15s | %s",
+			id,
+			title,
+			author,
+			genre,
+			status
+		);
+	}
 
     @Override
     public boolean equals(Object obj) {
