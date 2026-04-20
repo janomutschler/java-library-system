@@ -20,10 +20,15 @@ public class Library {
 		this.actionHistory = new ArrayDeque<>();
     }
 
-    public void addBook(Book book) {
+    public boolean addBook(Book book) {
+        if (bookMap.containsKey(book.getId())) {
+            return false;
+        }
+
         books.add(book);
         bookMap.put(book.getId(), book);
         genreSet.add(book.getGenre());
+        return true;
     }
 
     public boolean removeBookById(int id) {
@@ -59,6 +64,28 @@ public class Library {
         recentSearches.push(keyword);
 
         return result;
+    }
+
+    public boolean borrowBook(int id) {
+        Book book = bookMap.get(id);
+
+        if (book == null || !book.isAvailable()) {
+            return false;
+        }
+
+        book.setAvailable(false);
+        return true;
+    }
+
+    public boolean returnBook(int id) {
+        Book book = bookMap.get(id);
+
+        if (book == null || book.isAvailable()) {
+            return false;
+        }
+
+        book.setAvailable(true);
+        return true;
     }
 
     public Set<String> getGenres() {
