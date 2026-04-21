@@ -74,6 +74,14 @@ public class Library {
         }
 
         book.setAvailable(false);
+
+        GregorianCalendar today = new GregorianCalendar();
+        book.setBorrowDate(today);
+
+        GregorianCalendar dueDate = (GregorianCalendar) today.clone();
+        dueDate.add(Calendar.DAY_OF_MONTH, 14);
+        book.setDueDate(dueDate);
+
         return true;
     }
 
@@ -85,6 +93,8 @@ public class Library {
         }
 
         book.setAvailable(true);
+        book.setBorrowDate(null);
+        book.setDueDate(null);
         return true;
     }
 
