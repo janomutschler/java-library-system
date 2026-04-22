@@ -1,6 +1,6 @@
 id;title;author;genre;available
 1;Dune;Frank Herbert;Sci-Fi;true
 2;1984;George Orwell;Dystopia;true
-3;Clean Code;Robert C. Martin;Programming;false
+3;Clean Code;Robert C. Martin;Programming;true
 4;Dune;Frank Herbert;Sci-Fi;true
 5;Clean Code;Robert C. Martin;Programming;true
