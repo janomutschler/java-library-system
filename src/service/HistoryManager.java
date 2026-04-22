@@ -5,6 +5,9 @@ import model.Book;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+/**
+ * Stores reversible library actions for undo support.
+ */
 public class HistoryManager {
 
 	public enum ActionType {
@@ -38,10 +41,16 @@ public class HistoryManager {
 		this.history = new ArrayDeque<>();
 	}
 
+	/**
+	 * Pushes an action with a snapshot needed for restoration.
+	 */
 	public void record(ActionType type, Book book) {
 		history.push(new Action(type, new Book(book)));
 	}
 
+	/**
+	 * Pops the latest action, or null if no action exists.
+	 */
 	public Action undoLastAction() {
 		if (history.isEmpty()) {
 			return null;

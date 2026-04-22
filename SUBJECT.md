@@ -23,7 +23,7 @@ The application must provide the following features:
 * Add new books
 * Remove books
 * Display all books
-* Search books by title or author
+* Search books by title
 
 ### 2. Borrowing System
 
@@ -49,7 +49,6 @@ The system must use:
 
 * Load books from a file
 * Save reports or current state to a file
-* Move processed files using file system operations
 
 ### 6. Object-Oriented Features
 

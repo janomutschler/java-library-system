@@ -2,22 +2,37 @@ package service;
 
 import model.Book;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+/**
+ * Core library service that manages catalog state and borrowing rules.
+ */
 public class Library {
+
+    private static final int LOAN_DAYS = 14;
 
     private final List<Book> books;
     private final Map<Integer, Book> bookMap;
     private final Set<String> genreSet;
-	private final HistoryManager historyManager;
+    private final HistoryManager historyManager;
 
     public Library() {
         this.books = new ArrayList<>();
         this.bookMap = new HashMap<>();
         this.genreSet = new HashSet<>();
-		this.historyManager = new HistoryManager();
+        this.historyManager = new HistoryManager();
     }
 
+    /**
+     * Adds a book if its ID is unique.
+     */
     public boolean addBook(Book book) {
         return addBookInternal(book, true);
     }
@@ -38,6 +53,9 @@ public class Library {
         return true;
     }
 
+    /**
+     * Removes a book by ID.
+     */
     public boolean removeBookById(int id) {
         return removeBookByIdInternal(id, true);
     }
@@ -55,20 +73,28 @@ public class Library {
 
         books.remove(book);
         bookMap.remove(id);
-
         removeGenreIfUnused(book.getGenre());
 
         return true;
     }
 
+    /**
+     * Returns the book with the given ID, or null if missing.
+     */
     public Book findBookById(int id) {
         return bookMap.get(id);
     }
 
+    /**
+     * Returns all books currently stored in the catalog.
+     */
     public List<Book> listAllBooks() {
         return books;
     }
 
+    /**
+     * Performs a case-insensitive title search.
+     */
     public List<Book> searchByTitle(String keyword) {
         List<Book> result = new ArrayList<>();
 
@@ -81,6 +107,9 @@ public class Library {
         return result;
     }
 
+    /**
+     * Borrows a book if it exists and is currently available.
+     */
     public boolean borrowBook(int id) {
         return borrowBookInternal(id, true);
     }
@@ -102,12 +131,15 @@ public class Library {
         book.setBorrowDate(today);
 
         GregorianCalendar dueDate = (GregorianCalendar) today.clone();
-        dueDate.add(Calendar.DAY_OF_MONTH, 14);
+        dueDate.add(Calendar.DAY_OF_MONTH, LOAN_DAYS);
         book.setDueDate(dueDate);
 
         return true;
     }
 
+    /**
+     * Returns a borrowed book and clears its loan dates.
+     */
     public boolean returnBook(int id) {
         return returnBookInternal(id, true);
     }
@@ -129,6 +161,9 @@ public class Library {
         return true;
     }
 
+    /**
+     * Reverts the most recent successful mutating action.
+     */
     public boolean undoLastAction() {
         HistoryManager.Action action = historyManager.undoLastAction();
 
@@ -138,6 +173,7 @@ public class Library {
 
         Book snapshot = action.getBookSnapshot();
 
+        // Reverse action by applying the opposite operation or restoring state.
         switch (action.getType()) {
             case ADD:
                 return removeBookByIdInternal(snapshot.getId(), false);
@@ -175,6 +211,9 @@ public class Library {
         genreSet.remove(genre);
     }
 
+    /**
+     * Returns all genres currently present in the catalog.
+     */
     public Set<String> getGenres() {
         return genreSet;
     }

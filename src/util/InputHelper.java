@@ -2,8 +2,18 @@ package util;
 
 import java.util.Scanner;
 
+/**
+ * Utility methods for reading validated console input.
+ */
 public class InputHelper {
 
+    private InputHelper() {
+        // Utility class
+    }
+
+    /**
+     * Reads an integer from the console and repeats until a valid number is entered.
+     */
     public static int readInt(Scanner sc, String message) {
         while (true) {
             System.out.print(message + ": ");
@@ -17,11 +27,17 @@ public class InputHelper {
         }
     }
 
+    /**
+     * Reads a raw line of text from the console.
+     */
     public static String readString(Scanner sc, String message) {
         System.out.print(message + ": ");
         return sc.nextLine();
     }
 
+    /**
+     * Reads a boolean value and accepts true/false or yes/no aliases.
+     */
     public static boolean readBoolean(Scanner sc, String message) {
         while (true) {
             System.out.print(message + " (true/false): ");
