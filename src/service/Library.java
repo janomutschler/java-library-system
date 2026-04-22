@@ -6,21 +6,23 @@ import java.util.*;
 
 public class Library {
 
-    private List<Book> books;
-    private Map<Integer, Book> bookMap;
-    private Set<String> genreSet;
-    private Deque<String> recentSearches;
-	private Deque<String> actionHistory;
+    private final List<Book> books;
+    private final Map<Integer, Book> bookMap;
+    private final Set<String> genreSet;
+	private final HistoryManager historyManager;
 
     public Library() {
         this.books = new ArrayList<>();
         this.bookMap = new HashMap<>();
         this.genreSet = new HashSet<>();
-        this.recentSearches = new ArrayDeque<>();
-		this.actionHistory = new ArrayDeque<>();
+		this.historyManager = new HistoryManager();
     }
 
     public boolean addBook(Book book) {
+        return addBookInternal(book, true);
+    }
+
+    private boolean addBookInternal(Book book, boolean recordHistory) {
         if (bookMap.containsKey(book.getId())) {
             return false;
         }
@@ -28,18 +30,33 @@ public class Library {
         books.add(book);
         bookMap.put(book.getId(), book);
         genreSet.add(book.getGenre());
+
+        if (recordHistory) {
+            historyManager.record(HistoryManager.ActionType.ADD, book);
+        }
+
         return true;
     }
 
     public boolean removeBookById(int id) {
+        return removeBookByIdInternal(id, true);
+    }
+
+    private boolean removeBookByIdInternal(int id, boolean recordHistory) {
         Book book = bookMap.get(id);
 
         if (book == null) {
             return false;
         }
 
+        if (recordHistory) {
+            historyManager.record(HistoryManager.ActionType.REMOVE, book);
+        }
+
         books.remove(book);
         bookMap.remove(id);
+
+        removeGenreIfUnused(book.getGenre());
 
         return true;
     }
@@ -61,16 +78,22 @@ public class Library {
             }
         }
 
-        recentSearches.push(keyword);
-
         return result;
     }
 
     public boolean borrowBook(int id) {
+        return borrowBookInternal(id, true);
+    }
+
+    private boolean borrowBookInternal(int id, boolean recordHistory) {
         Book book = bookMap.get(id);
 
         if (book == null || !book.isAvailable()) {
             return false;
+        }
+
+        if (recordHistory) {
+            historyManager.record(HistoryManager.ActionType.BORROW, book);
         }
 
         book.setAvailable(false);
@@ -86,10 +109,18 @@ public class Library {
     }
 
     public boolean returnBook(int id) {
+        return returnBookInternal(id, true);
+    }
+
+    private boolean returnBookInternal(int id, boolean recordHistory) {
         Book book = bookMap.get(id);
 
         if (book == null || book.isAvailable()) {
             return false;
+        }
+
+        if (recordHistory) {
+            historyManager.record(HistoryManager.ActionType.RETURN, book);
         }
 
         book.setAvailable(true);
@@ -98,11 +129,53 @@ public class Library {
         return true;
     }
 
-    public Set<String> getGenres() {
-        return genreSet;
+    public boolean undoLastAction() {
+        HistoryManager.Action action = historyManager.undoLastAction();
+
+        if (action == null) {
+            return false;
+        }
+
+        Book snapshot = action.getBookSnapshot();
+
+        switch (action.getType()) {
+            case ADD:
+                return removeBookByIdInternal(snapshot.getId(), false);
+            case REMOVE:
+                return addBookInternal(snapshot, false);
+            case BORROW:
+            case RETURN:
+                return restoreBookState(snapshot);
+            default:
+                return false;
+        }
     }
 
-    public Deque<String> getRecentSearches() {
-        return recentSearches;
+    private boolean restoreBookState(Book snapshot) {
+        Book book = bookMap.get(snapshot.getId());
+
+        if (book == null) {
+            return false;
+        }
+
+        book.setAvailable(snapshot.isAvailable());
+        book.setBorrowDate(snapshot.getBorrowDate());
+        book.setDueDate(snapshot.getDueDate());
+
+        return true;
+    }
+
+    private void removeGenreIfUnused(String genre) {
+        for (Book currentBook : books) {
+            if (currentBook.getGenre().equals(genre)) {
+                return;
+            }
+        }
+
+        genreSet.remove(genre);
+    }
+
+    public Set<String> getGenres() {
+        return genreSet;
     }
 }
