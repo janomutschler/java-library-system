@@ -44,6 +44,9 @@ public class Main {
                 case 8:
                     saveReport(sc, library);
                     break;
+                case 9:
+                    undoLastAction(library);
+                    break;
                 case 0:
                     running = false;
                     System.out.println("Goodbye.");
@@ -66,6 +69,7 @@ public class Main {
         System.out.println("6. Return book");
         System.out.println("7. Load books from file");
         System.out.println("8. Save report");
+        System.out.println("9. Undo last action");
         System.out.println("0. Exit");
     }
 
@@ -96,6 +100,16 @@ public class Main {
 
         FileManager fileManager = new FileManager();
         fileManager.saveReport(path, library);
+    }
+
+    private static void undoLastAction(Library library) {
+        boolean undone = library.undoLastAction();
+
+        if (undone) {
+            System.out.println("Last action undone.");
+        } else {
+            System.out.println("Nothing to undo.");
+        }
     }
 
     private static void listAllBooks(Library library) {
