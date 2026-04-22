@@ -23,6 +23,16 @@ public class Book implements Comparable<Book> {
         this.dueDate = null;
     }
 
+    public Book(Book other) {
+        this.id = other.id;
+        this.title = other.title;
+        this.author = other.author;
+        this.genre = other.genre;
+        this.available = other.available;
+        this.borrowDate = other.borrowDate == null ? null : (GregorianCalendar) other.borrowDate.clone();
+        this.dueDate = other.dueDate == null ? null : (GregorianCalendar) other.dueDate.clone();
+    }
+
     //getter
     public int getId() {
         return id;
