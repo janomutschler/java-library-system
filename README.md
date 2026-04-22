@@ -1,103 +1,91 @@
-# Java Library System (in early Development no stable version yet)
+# Java Library System
 
-A console-based library management system built in Java to practice core concepts of data structures and the Java class library.
+A console-based library management system built in Java to practice core language features, collections, file I/O, and object design.
 
-## 🚀 Overview
-
-This project simulates a simple library where books can be managed, searched, borrowed, and returned.
-It is designed as a hands-on way to learn and apply key Java concepts such as collections, object comparison, string processing, and file handling.
-
----
-
-## 🧩 Features
+## Features
 
 * Add, remove, and list books
-* Search books by title or author
+* Search books by title
 * Borrow and return books
-* Undo last actions (history system)
-* Load data from files
-* Save reports to files
-* Handle structured text input (CSV-like format)
+* Undo the last library action
+* Load books from a CSV file
+* Save a text report of the current catalog
 
----
+## Concepts Covered
 
-## 🛠️ Tech & Concepts
+* `List`, `Map`, `Set`, and `Deque`
+* `toString()`, `equals()`, `hashCode()`, and `compareTo()`
+* File reading and writing
+* String parsing and validation
+* Borrow/return state changes with undo support
 
-This project focuses on:
+## Subject Coverage Check
 
-* Java Collections (`List`, `Set`, `Map`, `Deque`)
-* Object methods (`toString`, `equals`, `hashCode`, `compareTo`)
-* File I/O (`File`, `BufferedReader`, `FileWriter`)
-* String processing (`split`, `substring`, `indexOf`, etc.)
-* Basic date handling (`Calendar` / `Date`)
-* Clean code & Java conventions
+Based on `SUBJECT.md`, the project now covers all required areas:
 
----
+* [x] Add/remove/display/search books
+* [x] Search by title
+* [x] Borrow/return with availability tracking
+* [x] `List`, `Set`, `Map`, and `Deque/Stack` usage
+* [x] CSV/text parsing and string processing
+* [x] File load/save
+* [x] `toString()`, `equals()`, `hashCode()`, `compareTo()`
+* [x] Date handling for borrow and due dates
+* [x] Console UI, modular structure, comments/Javadoc
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 java-library-system/
 ├── README.md
 ├── SUBJECT.md
 ├── CONCEPTS.md
-├── .gitignore
 ├── input/
-│   └── books_sample.csv
+│   └── book_sample.csv
 ├── output/
-│   └── .gitkeep
 └── src/
     ├── Main.java
-    ├── model/
-    │   ├── Book.java
-    │   ├── User.java
-    │   └── Loan.java
-    ├── service/
-    │   ├── Library.java
-    │   ├── LoanService.java
-    │   └── HistoryManager.java
     ├── io/
     │   └── FileManager.java
-    ├── util/
-    │   ├── InputHelper.java
-    │   ├── DateHelper.java
-    │   └── StringHelper.java
-    └── data/
-        └── SampleData.java
+    ├── model/
+    │   ├── Book.java
+    │   └── User.java
+    ├── service/
+    │   ├── HistoryManager.java
+    │   └── Library.java
+    ├── ui/
+    │   └── ConsoleApp.java
+    └── util/
+        └── InputHelper.java
 ```
 
----
+## Run It
 
-## ▶️ How to Run
-
-1. Compile:
+From the project root:
 
 ```bash
+cd src/
 javac Main.java
-```
-
-2. Run:
-
-```bash
 java Main
 ```
 
----
+## Input Format
 
-## 📚 Purpose
+The file loader expects rows in this format:
 
-This project was built as part of learning:
-**Data Structures and Java Class Library**
+```text
+id;title;author;genre;available
+```
 
-The focus is not on building a production-ready system, but on understanding how Java’s standard tools work together in practice.
+Example:
 
----
+```text
+1;Clean Code;Robert C. Martin;Programming;true
+```
 
-## 💡 Future Improvements
+## Notes
 
-* Add GUI (JavaFX / Swing)
-* Add database persistence
-* Improve search and filtering
-* Add user authentication
+* `output/` is kept in the repository so reports have a place to go, but generated files should not be committed.
+* The project is intentionally small and focused on learning the standard Java class library.
 
 ---
