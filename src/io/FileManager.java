@@ -11,8 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Handles reading and writing library data files.
+ */
 public class FileManager {
 
+    /**
+     * Loads books from a semicolon-separated file.
+     */
     public List<Book> loadBooksFromFile(String path) {
         List<Book> loadedBooks = new ArrayList<>();
 
@@ -29,7 +35,7 @@ public class FileManager {
                     continue;
                 }
 
-                // optional: skip header row
+                // Skip optional header row.
                 if (lineNumber == 1 && line.toLowerCase().startsWith("id;")) {
                     continue;
                 }
@@ -86,6 +92,9 @@ public class FileManager {
         return new Book(id, title, author, genre, available);
     }
 
+    /**
+     * Writes a catalog summary report to disk.
+     */
     public void saveReport(String path, Library library) {
         try (FileWriter writer = new FileWriter(path)) {
             List<Book> books = library.listAllBooks();
